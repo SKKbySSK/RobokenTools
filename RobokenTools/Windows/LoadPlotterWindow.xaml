@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RobokenTools.Windows"
+        xmlns:Views="clr-namespace:RobokenTools.Views" x:Class="RobokenTools.Windows.LoadPlotterWindow"
+        mc:Ignorable="d"
+        Title="LoadPlotterWindow" Height="450" Width="800" Topmost="True">
+    <Grid>
+        <TabControl>
+            <TabItem Header="シリアル接続">
+                <Grid>
+                    <Views:ConnectionView Margin="10" Command="{Binding LoadSerialConnectionCommand}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="ファイル読み込み">
+                <Grid/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

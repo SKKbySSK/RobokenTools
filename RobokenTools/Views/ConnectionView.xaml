@@ -8,17 +8,24 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="35*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ComboBox x:Name="connectionC" Margin="10,10,0,10" HorizontalAlignment="Left" Width="225" SelectionChanged="connectionC_SelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding PortName}"/>
+                    <Label Content="{Binding PortName}" FontSize="10"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Button x:Name="refreshB" Content="更新" HorizontalAlignment="Left" Margin="240,10,0,10" Width="89" Click="refreshB_Click"/>
 
+        <Button x:Name="loadB" Grid.Row="2" Content="読み込み" HorizontalAlignment="Right" Margin="10" Padding="10, 5, 10, 5" IsDefault="True" Click="loadB_Click"/>
+        <StackPanel Grid.Row="1" Margin="10">
+            <Label Content="ボーレート" Grid.Row="1" VerticalAlignment="Top"/>
+            <ComboBox x:Name="baudrateC" Width="200" HorizontalAlignment="Left" IsEditable="True" SelectedItem="{Binding BaudRate}">
+            </ComboBox>
+        </StackPanel>
     </Grid>
 </UserControl>

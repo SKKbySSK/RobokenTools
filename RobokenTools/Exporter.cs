@@ -11,26 +11,22 @@ namespace RobokenTools
 {
     public static class Exporter
     {
-        public static string SerializeToText<T>(object data)
+        public static string SerializeToText<T>(T data)
         {
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            return JsonConvert.SerializeObject(data, Formatting.Indented, serializerSettings);
+            return JsonConvert.SerializeObject(data, Formatting.Indented);
         }
 
-        public static void SerializeToFile<T>(string path)
+        public static void SerializeToFile<T>(T data, string path)
         {
             using (var sw = new StreamWriter(path))
             {
-                sw.Write(SerializeToText<T>(path));
+                sw.Write(SerializeToText(data));
             }
         }
 
         public static T DeserializeFromText<T>(string text)
         {
-            var serializerSettings = new JsonSerializerSettings();
-            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            return JsonConvert.DeserializeObject<T>(text, serializerSettings);
+            return JsonConvert.DeserializeObject<T>(text);
         }
 
         public static T DeserializeFromFile<T>(string path)

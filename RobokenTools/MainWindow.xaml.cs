@@ -20,9 +20,12 @@ namespace RobokenTools
     /// </summary>
     public partial class MainWindow : Window
     {
+        ViewModels.MainWindowViewModel viewModel = new ViewModels.MainWindowViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }

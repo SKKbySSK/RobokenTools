@@ -20,7 +20,7 @@ namespace RobokenTools.Abstracts
 
         public double Minimum { get; }
 
-        public List<double> Data { get; } = new List<double>();
+        public SpanCollection Data { get; } = new SpanCollection();
 
         public abstract void Open();
 

@@ -59,12 +59,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Abstracts\DataPlotter.cs" />
+    <Compile Include="Abstracts\ViewModelBase.cs" />
     <Compile Include="Exporter.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="SerialTool\Connection.cs" />
     <Compile Include="SerialTool\ConnectionManager.cs" />
     <Compile Include="SerialTool\SerialPlotter.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SpanCollection.cs" />
+    <Compile Include="ValuaEventArgs.cs" />
+    <Compile Include="ViewModels\LoadPlotterViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\ConnectionView.xaml.cs">
       <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoadPlotterWindow.xaml.cs">
+      <DependentUpon>LoadPlotterWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadPlotterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -25,6 +25,26 @@ namespace RobokenTools.Views
             InitializeComponent();
             grid.DataContext = this;
             connectionC.ItemsSource = SerialTool.ConnectionManager.GetPorts();
+
+            baudrateC.ItemsSource = new int[]
+            {
+                110,
+                300,
+                600,
+                1200,
+                2400,
+                4800,
+                9600,
+                14400,
+                19200,
+                38400,
+                57600,
+                115200,
+                128000,
+                256000
+            };
+
+            baudrateC.SelectedItem = Settings.Current.BaudRate;
         }
 
         public static readonly DependencyProperty ConnectionProperty = DependencyProperty.Register(nameof(Connection),
@@ -44,6 +64,21 @@ namespace RobokenTools.Views
             set => SetValue(ConnectionProperty, value);
         }
 
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command),
+            typeof(ICommand), typeof(ConnectionView),
+            new PropertyMetadata(default(ICommand), (obj, e) => ((ConnectionView)obj).CommandPropertyChanged((ICommand)e.OldValue, (ICommand)e.NewValue)));
+
+        private void CommandPropertyChanged(ICommand oldValue, ICommand newValue)
+        {
+
+        }
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
         private void connectionC_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (connectionC.SelectedItem is SerialTool.Connection con)
@@ -54,6 +89,13 @@ namespace RobokenTools.Views
         {
             connectionC.ItemsSource = SerialTool.ConnectionManager.GetPorts();
             connectionC.SelectedItem = null;
+        }
+
+        private void loadB_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Current.BaudRate = (int)baudrateC.SelectedItem;
+            if (Command?.CanExecute(Connection) ?? false)
+                Command.Execute(Connection);
         }
     }
 }
