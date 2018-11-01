@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:RobokenTools"
         xmlns:Views="clr-namespace:RobokenTools.Views" x:Class="RobokenTools.MainWindow"
         mc:Ignorable="d"
-        Title="ロボ研ツール" Height="450" Width="800">
+        Title="ロボ研ツール" Height="450" Width="800" Background="Gray">
     <Grid>
         <Menu VerticalAlignment="Top">
             <MenuItem Header="ファイル">
@@ -15,8 +15,16 @@
             </MenuItem>
         </Menu>
 
-        <oxy:Plot x:Name="plotV" Margin="10,23,10,33.5"/>
-        <Slider x:Name="spanS" Margin="103,0,10,10.5" VerticalAlignment="Bottom" Maximum="50000" Minimum="100" Value="{Binding Span}"/>
-        <Label Content="{Binding DeltaLabel, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,0,0,10.5" VerticalAlignment="Bottom" Height="23" Width="88" VerticalContentAlignment="Center"/>
+        <Grid Margin="10,23,10,28.5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <oxy:Plot x:Name="plotV" Grid.RowSpan="2" Margin="0,0,33,0" Background="White"/>
+            <Slider SmallChange="1" LargeChange="10" x:Name="maxS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Maximum="2000" Value="250" IsSnapToTickEnabled="True" TickFrequency="10"/>
+            <Slider SmallChange="1" LargeChange="10" x:Name="minS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Minimum="-2000" Value="-250" Grid.Row="1" IsSnapToTickEnabled="True" TickFrequency="10"/>
+        </Grid>
+        <Slider SmallChange="100" LargeChange="1000" x:Name="spanS" Margin="103,0,10,5.5" VerticalAlignment="Bottom" Maximum="50000" Minimum="100" Value="{Binding Span}" ValueChanged="spanS_ValueChanged"/>
+        <Label Content="{Binding DeltaLabel, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,0,0,0.5" VerticalAlignment="Bottom" Height="28" Width="88" VerticalContentAlignment="Center"/>
     </Grid>
 </Window>

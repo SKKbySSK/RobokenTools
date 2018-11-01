@@ -44,18 +44,21 @@ namespace RobokenTools
                     plotV.Axes.Add(new OxyPlot.Wpf.DateTimeAxis()
                     {
                         LabelFormatter = d => (DateTime.Now - OxyPlot.Axes.DateTimeAxis.ToDateTime(d)).TotalMilliseconds + "ms",
-                        IsZoomEnabled = true,
-                        IsPanEnabled = true,
+                        IsZoomEnabled = false,
+                        IsPanEnabled = false,
                         MajorGridlineColor = Colors.Gray,
                         MajorGridlineThickness = 1,
                         MinorGridlineColor = Colors.LightGray,
                         MinorGridlineThickness = 0.2,
                         Title = "時間",
                     });
+                    plotV.Axes.Add(new OxyPlot.Wpf.LinearAxis()
+                    {
+                        Maximum = 250,
+                        Minimum = -250,
+                    });
                     break;
             }
-
-            e.Value.Open();
         }
 
         private void ViewModel_DataAvailable(object sender, ValueEventArgs<Abstracts.DataPlotter> e)
@@ -71,9 +74,18 @@ namespace RobokenTools
         private void PlotSerial(SerialTool.SerialPlotter plotter)
         {
             current.ItemsSource = null;
-            var now = DateTime.Now;
-            var from = now.Subtract(TimeSpan.FromMilliseconds(viewModel.Span));
-            current.ItemsSource = plotter.Data.ToDataPoints(from, now);
+
+            if (viewModel.Span == spanS.Maximum)
+            {
+                current.ItemsSource = plotter.Data.ToDataPoints();
+            }
+            else
+            {
+                var now = DateTime.Now;
+                var from = now.Subtract(TimeSpan.FromMilliseconds(viewModel.Span));
+                current.ItemsSource = plotter.Data.ToDataPoints(from, now);
+            }
+
             plotV.InvalidatePlot();
         }
 
@@ -81,6 +93,11 @@ namespace RobokenTools
         {
             plotV.Series.Clear();
             plotV.Axes.Clear();
+        }
+
+        private void spanS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            viewModel.IsInfinityMode = e.NewValue == spanS.Maximum;
         }
     }
 }

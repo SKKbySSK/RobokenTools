@@ -118,6 +118,12 @@ namespace RobokenTools.Views
 
         private void loadB_Click(object sender, RoutedEventArgs e)
         {
+            if (Connection == null)
+            {
+                MessageBox.Show("入力デバイスを選択してください");
+                return;
+            }
+
             if (int.TryParse(baudrateC.Text, out var baudrate) && baudrate > 0)
             {
                 var databits = (int)databitsC.SelectedItem;

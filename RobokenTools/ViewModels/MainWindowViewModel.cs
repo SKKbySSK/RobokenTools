@@ -31,6 +31,9 @@ namespace RobokenTools.ViewModels
 
             Plotter = e.Value;
             PlotterSelected?.Invoke(this, e);
+
+            if (IsRunning)
+                e.Value.Open();
         }
 
         public RelayCommand LoadCommand { get; }
@@ -59,6 +62,24 @@ namespace RobokenTools.ViewModels
             }
         }
 
+        bool _isRunning = true;
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                if (value == _isRunning) return;
+                _isRunning = value;
+
+                if (value)
+                    Plotter?.Open();
+                else
+                    Plotter?.Close();
+
+                RaisePropertyChanged();
+            }
+        }
+
         double _span = 1000;
         public double Span
         {
@@ -72,14 +93,30 @@ namespace RobokenTools.ViewModels
             }
         }
 
+        bool _isInfinityMode = false;
+        public bool IsInfinityMode
+        {
+            get => _isInfinityMode;
+            set
+            {
+                if (value == _isInfinityMode) return;
+                _isInfinityMode = value;
+                RaisePropertyChanged();
+                DeltaLabel = Math.Round(Span, 0) + "ms";
+            }
+        }
+
         string _deltaLabel = "1000ms";
         public string DeltaLabel
         {
             get => _deltaLabel;
             set
             {
-                if (value == _deltaLabel) return;
-                _deltaLabel = value;
+                if (IsInfinityMode)
+                    _deltaLabel = "Infinity";
+                else
+                    _deltaLabel = value;
+
                 RaisePropertyChanged();
             }
         }
