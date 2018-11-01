@@ -9,11 +9,11 @@ namespace RobokenTools.Abstracts
 {
     public abstract class DataPlotter
     {
-        public event EventHandler Refresh;
+        public event EventHandler DataAvailable;
 
-        protected void RefreshView()
+        protected void OnDataAvailable()
         {
-            Refresh?.Invoke(this, new EventArgs());
+            DataAvailable?.Invoke(this, new EventArgs());
         }
 
         public double Maximum { get; }

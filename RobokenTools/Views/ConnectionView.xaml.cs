@@ -23,10 +23,12 @@ namespace RobokenTools.Views
         public ConnectionView()
         {
             InitializeComponent();
+            connectionC.SelectionChanged -= connectionC_SelectionChanged;
+
             grid.DataContext = this;
             connectionC.ItemsSource = SerialTool.ConnectionManager.GetPorts();
-
-            baudrateC.ItemsSource = new int[]
+            
+            var rates = new int[]
             {
                 110,
                 300,
@@ -43,8 +45,31 @@ namespace RobokenTools.Views
                 128000,
                 256000
             };
+            
+            baudrateC.Text = Settings.Current.BaudRate.ToString();
+            foreach (var r in rates)
+                baudrateC.Items.Add(r);
 
-            baudrateC.SelectedItem = Settings.Current.BaudRate;
+            databitsC.SelectedItem = 8;
+            databitsC.Items.Add(5);
+            databitsC.Items.Add(6);
+            databitsC.Items.Add(7);
+            databitsC.Items.Add(8);
+
+            var parities = new System.IO.Ports.Parity[]
+            {
+                 System.IO.Ports.Parity.None,
+                 System.IO.Ports.Parity.Odd,
+                 System.IO.Ports.Parity.Even,
+                 System.IO.Ports.Parity.Mark,
+                 System.IO.Ports.Parity.Space,
+            };
+
+            parityC.SelectedItem = System.IO.Ports.Parity.None;
+            foreach (var p in parities)
+                parityC.Items.Add(p);
+
+            connectionC.SelectionChanged += connectionC_SelectionChanged;
         }
 
         public static readonly DependencyProperty ConnectionProperty = DependencyProperty.Register(nameof(Connection),
@@ -93,9 +118,24 @@ namespace RobokenTools.Views
 
         private void loadB_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Current.BaudRate = (int)baudrateC.SelectedItem;
-            if (Command?.CanExecute(Connection) ?? false)
-                Command.Execute(Connection);
+            if (int.TryParse(baudrateC.Text, out var baudrate) && baudrate > 0)
+            {
+                var databits = (int)databitsC.SelectedItem;
+                var parity = (System.IO.Ports.Parity)parityC.SelectedItem;
+                Settings.Current.BaudRate = baudrate;
+
+                if (Command?.CanExecute(Connection) ?? false)
+                {
+                    Connection.BaudRate = baudrate;
+                    Connection.DataBits = databits;
+                    Connection.Parity = parity;
+                    Command.Execute(Connection);
+                }
+            }
+            else
+            {
+                MessageBox.Show("ボーレートが有効な値ではありません");
+            }
         }
     }
 }

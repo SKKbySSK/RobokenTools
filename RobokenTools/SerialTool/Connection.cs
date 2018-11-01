@@ -23,11 +23,21 @@ namespace RobokenTools.SerialTool
             Parity = parity;
         }
 
-        private SerialPort SerialPort { get; }
+        public SerialPort SerialPort { get; }
 
         public int Read(byte[] buffer, int offset, int count)
         {
             return SerialPort.Read(buffer, offset, count);
+        }
+
+        public byte[] Read(int count)
+        {
+            byte[] buffer = new byte[count];
+            for (int i = 0; count > i; i++)
+            {
+                buffer[i] = (byte)SerialPort.ReadByte();
+            }
+            return buffer;
         }
 
         public string PortName { get; }

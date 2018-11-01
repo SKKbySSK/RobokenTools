@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RobokenTools.Abstracts
 {
-    public class ViewModelBase
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

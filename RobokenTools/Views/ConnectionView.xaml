@@ -24,8 +24,11 @@
         <Button x:Name="loadB" Grid.Row="2" Content="読み込み" HorizontalAlignment="Right" Margin="10" Padding="10, 5, 10, 5" IsDefault="True" Click="loadB_Click"/>
         <StackPanel Grid.Row="1" Margin="10">
             <Label Content="ボーレート" Grid.Row="1" VerticalAlignment="Top"/>
-            <ComboBox x:Name="baudrateC" Width="200" HorizontalAlignment="Left" IsEditable="True" SelectedItem="{Binding BaudRate}">
-            </ComboBox>
+            <ComboBox x:Name="baudrateC" Width="200" HorizontalAlignment="Left" IsEditable="True" SelectedItem="{Binding BaudRate}" Text="0"/>
+            <Label Content="データビット"/>
+            <ComboBox x:Name="databitsC" Width="200" HorizontalAlignment="Left"/>
+            <Label Content="パリティ"/>
+            <ComboBox x:Name="parityC" Width="200" HorizontalAlignment="Left"/>
         </StackPanel>
     </Grid>
 </UserControl>
