@@ -116,6 +116,20 @@ namespace RobokenTools.Views
             connectionC.SelectedItem = null;
         }
 
+        public void AddProperty(string title, FrameworkElement element, bool optimizeLayout)
+        {
+            propertyStack.Children.Add(new Label() { Content = title });
+
+            if (optimizeLayout)
+            {
+                element.HorizontalAlignment = HorizontalAlignment.Left;
+                element.VerticalAlignment = VerticalAlignment.Top;
+                element.Width = 200;
+            }
+
+            propertyStack.Children.Add(element);
+        }
+
         private void loadB_Click(object sender, RoutedEventArgs e)
         {
             if (Connection == null)
@@ -128,19 +142,24 @@ namespace RobokenTools.Views
             {
                 var databits = (int)databitsC.SelectedItem;
                 var parity = (System.IO.Ports.Parity)parityC.SelectedItem;
-                Settings.Current.BaudRate = baudrate;
+                Connection.BaudRate = baudrate;
+                Connection.DataBits = databits;
+                Connection.Parity = parity;
+                ExecuteCommand();
 
-                if (Command?.CanExecute(Connection) ?? false)
-                {
-                    Connection.BaudRate = baudrate;
-                    Connection.DataBits = databits;
-                    Connection.Parity = parity;
-                    Command.Execute(Connection);
-                }
+                Settings.Current.BaudRate = baudrate;
             }
             else
             {
                 MessageBox.Show("ボーレートが有効な値ではありません");
+            }
+        }
+
+        protected virtual void ExecuteCommand()
+        {
+            if (Command?.CanExecute(Connection) ?? false)
+            {
+                Command.Execute(Connection);
             }
         }
     }

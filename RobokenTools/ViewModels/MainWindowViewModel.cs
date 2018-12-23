@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 
 namespace RobokenTools.ViewModels
 {
@@ -21,6 +23,44 @@ namespace RobokenTools.ViewModels
                 w.PlotterSelected += LoadPlotterWindow_PlotterSelected;
                 w.ShowDialog();
             });
+
+            SaveCommand = new RelayCommand(() =>
+            {
+                var data = Plotter?.Data?.ToDataPoints();
+
+                if (data != null)
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "txtファイル|*.txt|すべてのファイル|*.*";
+                    if (sfd.ShowDialog() ?? false)
+                    {
+                        using (var sw = new StreamWriter(sfd.FileName))
+                        {
+                            foreach (var d in data)
+                                sw.WriteLine($"{d.X}\t{d.Y}");
+                        }
+                    }
+                }
+            });
+
+            SaveCsvCommand = new RelayCommand(() =>
+            {
+                var data = Plotter?.Data?.ToDataPoints();
+
+                if (data != null)
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "csvファイル|*.csv|txtファイル|*.txt|すべてのファイル|*.*";
+                    if (sfd.ShowDialog() ?? false)
+                    {
+                        using (var sw = new StreamWriter(sfd.FileName))
+                        {
+                            foreach (var d in data)
+                                sw.WriteLine($"{d.X}, {d.Y}");
+                        }
+                    }
+                }
+            });
         }
 
         private void LoadPlotterWindow_PlotterSelected(object sender, ValueEventArgs<Abstracts.DataPlotter> e)
@@ -37,6 +77,10 @@ namespace RobokenTools.ViewModels
         }
 
         public RelayCommand LoadCommand { get; }
+
+        public RelayCommand SaveCommand { get; }
+
+        public RelayCommand SaveCsvCommand { get; }
 
         Abstracts.DataPlotter _plotter;
         public Abstracts.DataPlotter Plotter

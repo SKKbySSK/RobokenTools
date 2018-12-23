@@ -11,7 +11,7 @@ namespace RobokenTools.Abstracts
     {
         public event EventHandler DataAvailable;
 
-        protected void OnDataAvailable()
+        protected virtual void OnDataAvailable()
         {
             DataAvailable?.Invoke(this, new EventArgs());
         }

@@ -30,11 +30,21 @@ namespace RobokenTools
 
         public bool IsReadOnly => ((IList<SpanData>)collection).IsReadOnly;
 
+        public int MaximumCount { get; set; } = 1000;
+
         public void Add(DateTime date, double value)
         {
             lock (collection)
             {
                 collection.Add(new SpanData(date, value));
+                int delta = collection.Count - MaximumCount;
+
+                if (delta > 0)
+                {
+                    var items = collection.OrderBy(s => s.Date).Take(delta).ToArray();
+                    foreach (var i in items)
+                        collection.Remove(i);
+                }
             }
         }
 

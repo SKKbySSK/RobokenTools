@@ -70,7 +70,9 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SerialTool\Connection.cs" />
     <Compile Include="SerialTool\ConnectionManager.cs" />
+    <Compile Include="SerialTool\SEConnection.cs" />
     <Compile Include="SerialTool\SerialPlotter.cs" />
+    <Compile Include="SerialTool\SESerialPlotter.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SpanCollection.cs" />
     <Compile Include="ValuaEventArgs.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Views\ConnectionView.xaml.cs">
       <DependentUpon>ConnectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SyncConnectionView.cs" />
     <Compile Include="Windows\LoadPlotterWindow.xaml.cs">
       <DependentUpon>LoadPlotterWindow.xaml</DependentUpon>
     </Compile>

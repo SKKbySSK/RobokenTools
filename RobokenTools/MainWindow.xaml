@@ -7,11 +7,16 @@
         xmlns:local="clr-namespace:RobokenTools"
         xmlns:Views="clr-namespace:RobokenTools.Views" x:Class="RobokenTools.MainWindow"
         mc:Ignorable="d"
-        Title="ロボ研ツール" Height="450" Width="800" Background="Gray">
+        Title="ロボ研ツール" Height="450" Width="796">
     <Grid>
         <Menu VerticalAlignment="Top">
             <MenuItem Header="ファイル">
                 <MenuItem Header="読み込み" Command="{Binding LoadCommand}"/>
+                <Separator/>
+                <MenuItem Header="名前を付けて保存">
+                    <MenuItem Header="Tab区切り" Command="{Binding SaveCommand}"/>
+                    <MenuItem Header="カンマ区切り(CSV形式)" Command="{Binding SaveCsvCommand}"/>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -20,9 +25,11 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <oxy:Plot x:Name="plotV" Grid.RowSpan="2" Margin="0,0,33,0" Background="White"/>
-            <Slider SmallChange="1" LargeChange="10" x:Name="maxS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Maximum="2000" Value="250" IsSnapToTickEnabled="True" TickFrequency="10"/>
-            <Slider SmallChange="1" LargeChange="10" x:Name="minS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Minimum="-2000" Value="-250" Grid.Row="1" IsSnapToTickEnabled="True" TickFrequency="10"/>
+            <oxy:Plot x:Name="plotV" Grid.RowSpan="2" Margin="0,0,78,0" Background="LightGray"/>
+            <Slider SmallChange="1" LargeChange="10" x:Name="maxS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Minimum="0" Maximum="2000" Value="250" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="maxS_ValueChanged"/>
+            <Slider SmallChange="1" LargeChange="10" x:Name="minS" Margin="0,10,10,10" Orientation="Vertical" HorizontalAlignment="Right" Width="18" Maximum="0" Minimum="-2000" Value="-250" Grid.Row="1" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="minS_ValueChanged"/>
+            <Label Content="{Binding ElementName=maxS, Path=Value}" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,10,28,0" VerticalAlignment="Top" Width="50"/>
+            <Label Content="{Binding ElementName=minS, Path=Value}" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,0,28,10" VerticalAlignment="Bottom" Width="50" Grid.Row="1"/>
         </Grid>
         <Slider SmallChange="100" LargeChange="1000" x:Name="spanS" Margin="103,0,10,5.5" VerticalAlignment="Bottom" Maximum="50000" Minimum="100" Value="{Binding Span}" ValueChanged="spanS_ValueChanged"/>
         <Label Content="{Binding DeltaLabel, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,0,0,0.5" VerticalAlignment="Bottom" Height="28" Width="88" VerticalContentAlignment="Center"/>

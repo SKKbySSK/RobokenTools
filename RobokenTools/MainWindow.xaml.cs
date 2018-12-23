@@ -22,6 +22,7 @@ namespace RobokenTools
     {
         ViewModels.MainWindowViewModel viewModel = new ViewModels.MainWindowViewModel();
         OxyPlot.Wpf.Series current;
+        OxyPlot.Wpf.Axis yAxis;
 
         public MainWindow()
         {
@@ -36,7 +37,7 @@ namespace RobokenTools
             ResetView();
             switch (e.Value)
             {
-                case SerialTool.SerialPlotter serial:
+                default:
                     var line = new OxyPlot.Wpf.LineSeries();
                     current = line;
                     line.ItemsSource = e.Value.Data.ToDataPoints();
@@ -52,11 +53,13 @@ namespace RobokenTools
                         MinorGridlineThickness = 0.2,
                         Title = "時間",
                     });
-                    plotV.Axes.Add(new OxyPlot.Wpf.LinearAxis()
+
+                    yAxis = new OxyPlot.Wpf.LinearAxis()
                     {
-                        Maximum = 250,
-                        Minimum = -250,
-                    });
+                        Maximum = (int)maxS.Value,
+                        Minimum = (int)minS.Value,
+                    };
+                    plotV.Axes.Add(yAxis);
                     break;
             }
         }
@@ -65,13 +68,13 @@ namespace RobokenTools
         {
             switch (e.Value)
             {
-                case SerialTool.SerialPlotter serial:
-                    PlotSerial(serial);
+                default:
+                    Plot(e.Value);
                     break;
             }
         }
 
-        private void PlotSerial(SerialTool.SerialPlotter plotter)
+        private void Plot(Abstracts.DataPlotter plotter)
         {
             current.ItemsSource = null;
 
@@ -98,6 +101,18 @@ namespace RobokenTools
         private void spanS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             viewModel.IsInfinityMode = e.NewValue == spanS.Maximum;
+        }
+
+        private void minS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (yAxis != null)
+                yAxis.Minimum = e.NewValue;
+        }
+
+        private void maxS_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (yAxis != null)
+                yAxis.Maximum = e.NewValue;
         }
     }
 }

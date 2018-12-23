@@ -6,16 +6,21 @@
         xmlns:local="clr-namespace:RobokenTools.Windows"
         xmlns:Views="clr-namespace:RobokenTools.Views" x:Class="RobokenTools.Windows.LoadPlotterWindow"
         mc:Ignorable="d"
-        Title="LoadPlotterWindow" Height="450" Width="800" Topmost="True">
+        Title="LoadPlotterWindow" Height="500" Width="800" Topmost="True">
     <Grid>
-        <TabControl>
+        <StackPanel Margin="0,0,0,366.5">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="最大データ数"/>
+                <Label Content="{Binding ElementName=maxDataS, Path=Value}"/>
+            </StackPanel>
+            <Slider x:Name="maxDataS" Maximum="5000" Minimum="100" Value="{Binding MaxDataCount}"/>
+        </StackPanel>
+        <TabControl Margin="0,56,0,0.5">
             <TabItem Header="シリアル接続">
-                <Grid>
-                    <Views:ConnectionView Margin="10" Command="{Binding LoadSerialConnectionCommand}"/>
-                </Grid>
+                <Views:ConnectionView Margin="10" Command="{Binding LoadSerialConnectionCommand}"/>
             </TabItem>
-            <TabItem Header="ファイル読み込み">
-                <Grid/>
+            <TabItem Header="同期通信">
+                <Views:SyncConnectionView Margin="10" Command="{Binding LoadSyncSerialConnectionCommand}"/>
             </TabItem>
         </TabControl>
 
